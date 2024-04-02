@@ -20,6 +20,8 @@ passwordField:"password"
  if (!user) {
   return done(null,false,{message:"user not exist"})
  } 
+
+//hacher le password avec bcrypt
 bcrypt.compare(password,user.password, (error, isMatch) => {
 if (error) {
   return done(error);
@@ -31,11 +33,16 @@ if (!isMatch) {
 return done(null,user)
  })
 });
+//
 
+//utiliser passport-local dans passport.js
 passport.use(configPassport);
+//
+
 passport.serializeUser((user, done) => {
   done(null,user.id);
 })
+
 
 dotenv.config();
 const PORT = process.env.PORT;
