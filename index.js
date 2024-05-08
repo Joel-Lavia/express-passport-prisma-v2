@@ -5,6 +5,7 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const prisma = require("./db/prisma")
 const authRouter = require("./routes/auth")
+
 const LocalStrategie = require("passport-local").Strategy;
 const dotenv = require("dotenv");
 
@@ -13,13 +14,15 @@ const configPassport = new LocalStrategie({
 usernameField:"email",
 passwordField:"password"
 }, async (email,password,done)  => {
- const  user = await prisma.user.findFirst({
-  where:{email}
+ const  user = await prisma.u
+ ser.findFirst({
+  where:{email,password}
  });
 
  if (!user) {
   return done(null,false,{message:"user not exist"})
  } 
+
 
 //hacher le password avec bcrypt
 bcrypt.compare(password,user.password, (error, isMatch) => {
@@ -53,8 +56,9 @@ server.use(express.json());
 server.get("/", (req, res) => {
   res.send("DEV WEB C3");
 });
+
 // server.use("/users", usersRouter);
 // server.use("/ordinateurs", ordinateursRouter);
-server.use("/auth",authRouter);
+server.use("/",authRouter);
 
 server.listen(PORT, () => console.log(`Le serveur est lancé sur ${PORT}`));

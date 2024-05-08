@@ -9,10 +9,9 @@ const getOrdinateurs = async (req, res) => {
     res.status(500);
   }
 };
-
 const createOrdinateur = async (req, res) => {
   try {
-    const ordinateur = await prisma.ordinateur.create({
+  const ordinateur = await prisma.ordinateur.create({
       data: {
         model: req.body.model,
       },
